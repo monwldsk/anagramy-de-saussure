@@ -338,7 +338,7 @@
       transition: .2s ease;
     }
 
-    .drop-zone>div,
+    .drop-zone-copy,
     .drop-zone strong,
     .drop-zone small {
       max-width: 100%;
@@ -1143,8 +1143,9 @@
           <h3>Wczytaj plik .txt</h3>
         </div>
         <label id="dropZone" class="drop-zone">
-          <div><strong>Wybierz plik .txt albo przeciągnij go tutaj</strong><br><small>Plik zostanie wczytany lokalnie w
-              przeglądarce.</small></div>
+          <span class="drop-zone-copy"><strong>Wybierz plik .txt albo przeciągnij go tutaj</strong><br><small>Plik
+              zostanie wczytany lokalnie w
+              przeglądarce.</small></span>
           <input id="txtFileInput" type="file" accept=".txt,text/plain" />
         </label>
       </div>
