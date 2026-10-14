@@ -1034,8 +1034,8 @@
             <label for="topicWords">Słowa-tematy</label>
             <textarea id="topicWords"
               placeholder="Np. adam, matka, duch&#10;Możesz użyć przecinków, średników lub nowych linii."></textarea>
-            <div class="field-note">Wielkość liter i polskie znaki diakrytyczne są normalizowane. Powtórzone litery w
-              słowie-temacie są liczone wielokrotnie.</div>
+            <div class="field-note">Wielkość liter jest normalizowana. Powtórzone litery w słowie-temacie są liczone
+              wielokrotnie.</div>
           </div>
           <div class="field">
             <label for="windowSize">Okno natężenia</label>
@@ -1149,9 +1149,10 @@
     </section>
 
     <div class="footer-note">
-      Normalizacja sprowadza litery do małych znaków alfabetu łacińskiego i usuwa polskie znaki diakrytyczne (np. ą → a,
-      ł → l). Znaki interpunkcyjne, spacje i cyfry nie wpływają na dopasowanie. Analiza ma charakter eksploracyjny: duża
-      liczba trafień może wynikać zarówno z organizacji tekstu, jak i z częstotliwości poszczególnych liter.
+      Normalizacja sprowadza litery do małych znaków. Znaki interpunkcyjne, spacje i cyfry nie wpływają na dopasowanie.
+      Analiza działa na
+      literach/grafemach; nie wykonuje automatycznej transkrypcji fonemicznej. Ma charakter eksploracyjny: duża liczba
+      trafień może wynikać zarówno z organizacji tekstu, jak i z częstotliwości poszczególnych liter.
     </div>
   </main>
 
@@ -1225,11 +1226,9 @@
     function normalizeLetters(value) {
       return String(value)
         .toLocaleLowerCase("pl-PL")
-        .replaceAll("ł", "l")
-        .replaceAll("Ł", "l")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z]/g, "");
+        // NFC scala ewentualne sekwencje bazowa litera + znak łączący,
+        .normalize("NFC")
+        .replace(/[^a-ząćęłńóśźż]/g, "");
     }
 
     function parseTopics(raw) {
@@ -1651,17 +1650,21 @@
     }
 
     function highlightOrdered(original, pattern) {
-      const target = normalizeLetters(original);
+      const displayText = String(original).normalize("NFC");
+      const chars = Array.from(displayText);
+      const normalizedChars = chars.map(ch => normalizeLetters(ch));
+      const target = normalizedChars.join("");
       const positions = orderedMatchPositions(target, pattern);
-      if (!positions) return escapeHtml(original);
-      // Mapujemy indeksy znormalizowanych liter na indeksy znaków oryginalnego tekstu.
+      if (!positions) return escapeHtml(displayText);
       const mapped = [];
-      for (let i = 0; i < original.length; i++) {
-        const norm = normalizeLetters(original[i]);
-        if (norm) mapped.push(i);
-      }
+      normalizedChars.forEach((norm, charIndex) => {
+        for (const _ of norm) mapped.push(charIndex);
+      });
+
       const wantedOriginalIndices = new Set(positions.map(p => mapped[p]).filter(v => v !== undefined));
-      return [...original].map((ch, i) => wantedOriginalIndices.has(i) ? `<mark class="seq">${escapeHtml(ch)}</mark>` : escapeHtml(ch)).join("");
+      return chars.map((ch, i) => wantedOriginalIndices.has(i)
+        ? `<mark class="seq">${escapeHtml(ch)}</mark>`
+        : escapeHtml(ch)).join("");
     }
 
     async function loadTextFile(file) {
