@@ -885,12 +885,84 @@
       background: #f4f9ff;
     }
 
+    .drama-note {
+      margin-top: 9px;
+    }
+
+    .viz-panel-spaced {
+      margin-top: 16px;
+    }
+
+    .table-panel-title {
+      margin: 0 0 5px;
+    }
+
+    .table-panel-intro {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .col-verse {
+      width: 72px;
+    }
+
+    .col-speaker {
+      width: 150px;
+    }
+
+    .col-ordered {
+      width: 170px;
+    }
+
+    .col-unordered {
+      width: 190px;
+    }
+
+    .library-btn {
+      min-height: 36px;
+      padding: 6px 10px;
+    }
+
     .footer-note {
       margin-top: 28px;
       padding-top: 20px;
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 11px;
+    }
+
+    .beta-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+
+      width: fit-content;
+      margin: 8px auto 28px;
+      padding: 7px 15px;
+
+      border: 1px solid #b9d7ff;
+      border-radius: 999px;
+
+      background: #f3f8ff;
+      color: #1769c7;
+
+      font-size: 13px;
+      line-height: 1;
+      font-weight: 600;
+
+      box-shadow: 0 3px 12px rgba(47, 105, 217, 0.06);
+    }
+
+    .beta-status__label {
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .beta-status__dot {
+      color: #76a9e8;
+      font-weight: 700;
     }
 
     @media (max-width: 980px) {
@@ -913,8 +985,46 @@
     }
 
     @media (max-width: 680px) {
+
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+
       body {
         padding: 8px;
+      }
+
+      .shell,
+      #results,
+      .summary-grid,
+      .viz-grid,
+      .viz-panel,
+      .chart-wrap,
+      .heatmap,
+      .heat-row,
+      .heat-track,
+      .table-panel,
+      .table-wrap {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .results-head>*,
+      .viz-toolbar>*,
+      .table-toolbar>* {
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .results-head p,
+      .hotspot,
+      .hotspot strong,
+      .hotspot div,
+      .table-note {
+        overflow-wrap: anywhere;
+        word-break: break-word;
       }
 
       .shell {
@@ -974,46 +1084,22 @@
         grid-template-columns: 1fr;
       }
 
+      .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        min-width: 720px;
+        max-width: none;
+      }
+
       th,
       td {
         padding: 7px 6px;
+        overflow-wrap: anywhere;
       }
-    }
 
-    .beta-status {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-
-      width: fit-content;
-      margin: 8px auto 28px;
-      padding: 7px 15px;
-
-      border: 1px solid #b9d7ff;
-      border-radius: 999px;
-
-      background: #f3f8ff;
-      color: #1769c7;
-
-      font-size: 13px;
-      line-height: 1;
-      font-weight: 600;
-
-      box-shadow: 0 3px 12px rgba(47, 105, 217, 0.06);
-    }
-
-    .beta-status__label {
-      font-weight: 800;
-      letter-spacing: 0.04em;
-    }
-
-    .beta-status__dot {
-      color: #76a9e8;
-      font-weight: 700;
-    }
-
-    @media (max-width: 600px) {
       .beta-status {
         margin: 4px auto 22px;
         padding: 7px 13px;
@@ -1196,7 +1282,7 @@
             wiersze będące
             didaskaliami</label>
         </div>
-        <div class="field-note" style="margin-top:9px;">W dramacie wiersz zapisany WIELKIMI LITERAMI jest traktowany
+        <div class="field-note drama-note">W dramacie wiersz zapisany WIELKIMI LITERAMI jest traktowany
           jako etykieta bohatera (z wyjątkiem nagłówków typu AKT/SCENA). Bohater jest przypisywany kolejnym wypowiedziom
           aż do następnej etykiety; pełnowierszowe didaskalia nie są przypisywane żadnemu bohaterowi.</div>
 
@@ -1255,7 +1341,7 @@
         </div>
       </div>
 
-      <div class="viz-panel" style="margin-top:16px;">
+      <div class="viz-panel viz-panel-spaced">
         <h3>Mapa rozkładu po całym tekście</h3>
         <p>Każdy segment odpowiada pojedynczemu wersowi albo grupie kolejnych wersów przy bardzo długim tekście.
           Niebieski oznacza trafienie z zachowaną kolejnością; fioletowy – tylko obecność wszystkich liter bez
@@ -1267,8 +1353,8 @@
       <div class="table-panel">
         <div class="table-toolbar">
           <div>
-            <h3 style="margin:0 0 5px;">Tabela wers po wersie</h3>
-            <p style="margin:0;color:var(--muted);font-size:12px;">Podgląd zawiera także rozpoznanego bohatera mówiącego
+            <h3 class="table-panel-title">Tabela wers po wersie</h3>
+            <p class="table-panel-intro">Podgląd zawiera także rozpoznanego bohatera mówiącego
               daną kwestię; temat wybierasz z listy.</p>
           </div>
           <div class="field">
@@ -1280,11 +1366,11 @@
           <table>
             <thead>
               <tr>
-                <th style="width:72px;">Nr wersu</th>
-                <th style="width:150px;">Bohater</th>
+                <th class="col-verse">Nr wersu</th>
+                <th class="col-speaker">Bohater</th>
                 <th>Treść wersu</th>
-                <th style="width:170px;">Słowo-temat z zachowaną kolejnością liter</th>
-                <th style="width:190px;">Wszystkie litery słowa-tematu, niezależnie od kolejności</th>
+                <th class="col-ordered">Słowo-temat z zachowaną kolejnością liter</th>
+                <th class="col-unordered">Wszystkie litery słowa-tematu, niezależnie od kolejności</th>
               </tr>
             </thead>
             <tbody id="resultBody"></tbody>
@@ -1856,7 +1942,7 @@
           <img src="assets/folder2.png" alt="folder icon">
           <div class="library-author">${escapeHtml(item.author)}</div>
           <div class="library-title">${escapeHtml(item.title)}</div>
-          <button class="btn ghost library-btn" type="button" data-path="${escapeHtml(item.path)}" style="min-height:36px;padding:6px 10px;">Wybierz</button>
+          <button class="btn ghost library-btn" type="button" data-path="${escapeHtml(item.path)}">Wybierz</button>
         </article>`).join("");
       DOM.libraryEmpty.style.display = items.length ? "none" : "block";
       DOM.libraryGrid.querySelectorAll(".library-btn").forEach(btn => {
