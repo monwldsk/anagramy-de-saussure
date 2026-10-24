@@ -9,3 +9,5 @@
 
 2. Poprawienie warunku odpowiedzialnego za **podział tekstu na zdania**.
 3. Konwersja grafem-fonem.
+4. Permutacje.
+5. Próg pokrycia słowa-tematu (minimalny stopień kompletności słowa-tematu)
