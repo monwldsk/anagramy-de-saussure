@@ -8,3 +8,4 @@
    - strofy.
 
 2. Poprawienie warunku odpowiedzialnego za **podział tekstu na zdania**.
+3. Konwersja grafem-fonem.
